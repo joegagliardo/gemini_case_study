@@ -1,0 +1,15 @@
+google-cloud-aiplatform 
+langchain 
+langchain-core 
+langchain-text-splitters 
+langchain-google-vertexai 
+langchain-community 
+faiss-cpu 
+langchain-chroma 
+pypdf
+langchain-google-genai 
+langchain-openai 
+PyMuPDF 
+python-dotenv 
+Pillow
+
