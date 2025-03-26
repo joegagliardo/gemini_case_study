@@ -1,7 +1,8 @@
 import vertexai
 import os
 
-PROJECT_ID = "qwiklabs-gcp-01-c5bb17587754"  # @param {type:"string"}
+# PROJECT_ID = "qwiklabs-gcp-01-c5bb17587754"  # @param {type:"string"}
+PROJECT_ID = "roi-genai-joey"  # @param {type:"string"}
 REGION = "us-central1"  # @param {type:"string"}
 os.environ['USER_AGENT'] = 'MyLangChainSignatureApp/1.0'
 
@@ -14,16 +15,24 @@ llm = VertexAI(model_name="gemini-2.0-flash-001", verbose=True)
 embeddings = VertexAIEmbeddings("text-embedding-004")
 
 
-my_text = "What day comes after Friday?"
+# my_text = "What day comes after Friday?"
 
-resp = llm.invoke(my_text)
-print(resp)
+# resp = llm.invoke(my_text)
+# print(resp)
 
 
 import check_pdf_signature as p
-pdf = p.pdf_page_to_base64_image('gs://qwiklabs-gcp-01-c5bb17587754/Federal SW Template Signed.pdf', 1)
-print(pdf)
+pdf_unsigned = 'https://storage.googleapis.com/qwiklabs-gcp-01-c5bb17587754/Federal SW Template.pdf'
+pdf_predict = 'https://storage.googleapis.com/qwiklabs-gcp-01-c5bb17587754/Federal SW Signed.pdf'
+# pdf_predict = pdf_unsigned
 
+
+
+prompt = p.create_signed_pdf_prompt(pdf_unsigned, pdf_predict)
+# print(prompt)
+
+resp = llm.invoke(prompt)
+print(resp)
 
 print('Done')
 
