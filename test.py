@@ -27,17 +27,31 @@ pdf_predict = 'https://storage.googleapis.com/qwiklabs-gcp-01-c5bb17587754/Feder
 # pdf_predict = pdf_unsigned
 
 
-
+print('Called as a simple prompt -> yes')
 prompt = p.create_signed_pdf_prompt(pdf_unsigned, pdf_predict)
-# print(prompt)
-
 resp = llm.invoke(prompt)
 print(resp)
 
+print('Called as a simple prompt -> no')
+prompt = p.create_signed_pdf_prompt(pdf_unsigned, pdf_unsigned)
+resp = llm.invoke(prompt)
+print(resp)
+
+# print('Called as a human message')
+# human_message = p.create_signed_pdf_human_message(pdf_unsigned, pdf_predict)
+# resp = llm.invoke(human_message)
+# print(resp)
+
+print('Called as a chain -> yes')
+signed_check_chain = p.create_signed_pdf_chain_vertex(llm, pdf_unsigned)
+response = signed_check_chain.invoke(pdf_predict)
+print(response)
+
+print('Called as a chain -> no')
+signed_check_chain = p.create_signed_pdf_chain_vertex(llm, pdf_unsigned)
+response = signed_check_chain.invoke(pdf_unsigned)
+print(response)
+
 print('Done')
 
-
-# url = "https://abc.xyz/assets/investor/static/pdf/20230203_alphabet_10K.pdf"
-# loader = PyPDFLoader(url)
-# documents = loader.load()
 
