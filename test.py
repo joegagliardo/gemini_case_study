@@ -28,12 +28,22 @@ pdf_predict = 'https://storage.googleapis.com/qwiklabs-gcp-01-c5bb17587754/Feder
 
 
 print('Called as a simple prompt -> yes')
-prompt = p.create_signed_pdf_prompt(pdf_unsigned, pdf_predict)
+prompt = p.create_signed_pdf_prompt(pdf_predict)
 resp = llm.invoke(prompt)
 print(resp)
 
 print('Called as a simple prompt -> no')
-prompt = p.create_signed_pdf_prompt(pdf_unsigned, pdf_unsigned)
+prompt = p.create_signed_pdf_prompt(pdf_unsigned)
+resp = llm.invoke(prompt)
+print(resp)
+
+print('Called as a simple prompt with example -> yes')
+prompt = p.create_signed_pdf_prompt_with_example(pdf_unsigned, pdf_predict)
+resp = llm.invoke(prompt)
+print(resp)
+
+print('Called as a simple prompt with example -> no')
+prompt = p.create_signed_pdf_prompt_with_example(pdf_unsigned, pdf_unsigned)
 resp = llm.invoke(prompt)
 print(resp)
 
@@ -48,7 +58,7 @@ response = signed_check_chain.invoke(pdf_predict)
 print(response)
 
 print('Called as a chain -> no')
-signed_check_chain = p.create_signed_pdf_chain_vertex(llm, pdf_unsigned)
+# signed_check_chain = p.create_signed_pdf_chain_vertex(llm, pdf_unsigned)
 response = signed_check_chain.invoke(pdf_unsigned)
 print(response)
 

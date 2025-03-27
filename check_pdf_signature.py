@@ -8,7 +8,33 @@ from langchain_core.prompts import PromptTemplate
 # from langchain_community.document_loaders import PyPDFLoader, WebBaseLoader
 # from langchain_core.documents import Document
 
-def create_signed_pdf_prompt(document1: str, document2: str):
+def create_signed_pdf_prompt(document1: str):
+    """Creates the message to compare an unsigned base document to a second document to see if the second is signed."""
+    if not document1:
+        raise ValueError("You must supply a URI for the document.")
+
+    ret = [
+        HumanMessage(
+            content=[
+                {
+                    "type": "text",
+                    "text": (
+                        "Analyze the attached image. It is the first page of a document. "
+                        "Is there a handwritten signature or a digital signature block present "
+                        "in the lower-right quadrant of the page of the document? "
+                        "Answer only with 'Yes', 'No', or 'Uncertain'."
+                    )
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {"url": document1}
+                }
+            ]
+        )
+    ]
+    return ret
+
+def create_signed_pdf_prompt_with_example(document1: str, document2: str):
     """Creates the message to compare an unsigned base document to a second document to see if the second is signed."""
     if not document1 or not document2:
         raise ValueError("You must supply two URIs for the documents.")
