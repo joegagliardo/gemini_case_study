@@ -104,7 +104,9 @@ def create_signed_pdf_prompt_with_example(document1: str, document2: str):
 from langchain_core.runnables import RunnablePassthrough
 from langchain_google_vertexai import ChatVertexAI
 from typing import Dict, List
+# from langchain.tools import tool
 
+# @tool("check_document_signature_vertex", return_direct=False)
 def create_signed_pdf_chain_vertex(llm: ChatVertexAI, unsigned_pdf_uri: str):
     """
     Creates a Langchain chain for comparing an unsigned base document to a second document
