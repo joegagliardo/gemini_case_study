@@ -3,6 +3,7 @@ google-cloud-bigquery
 langchain 
 langchain-core 
 langchain-text-splitters 
+langchain_google_community
 langchain-google-vertexai 
 langchain-community 
 langchain-chroma 
@@ -16,3 +17,8 @@ sqlalchemy-bigquery
 PyMuPDF 
 python-dotenv 
 Pillow
+wikipedia
+pydantic
+google-cloud-bigquery-storage
+Flask
+vertexai

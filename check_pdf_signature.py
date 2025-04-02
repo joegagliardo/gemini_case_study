@@ -1,3 +1,19 @@
+import vertexai
+import os
+
+# PROJECT_ID = "qwiklabs-gcp-01-c5bb17587754"  # @param {type:"string"}
+PROJECT_ID = "roi-genai-joey"  # @param {type:"string"}
+REGION = "us-central1"  # @param {type:"string"}
+os.environ['USER_AGENT'] = 'MyLangChainSignatureApp/1.0'
+
+# Initialize Vertex AI SDK
+vertexai.init(project=PROJECT_ID, location=REGION)
+from langchain_google_vertexai import VertexAI
+from langchain_google_vertexai import VertexAIEmbeddings
+from langchain_community.document_loaders import PyPDFLoader, WebBaseLoader
+llm = VertexAI(model_name="gemini-2.0-flash-001", verbose=True)
+embeddings = VertexAIEmbeddings("text-embedding-004")
+
 import os
 import io
 from google.cloud import storage
@@ -7,6 +23,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.prompts import PromptTemplate
 # from langchain_community.document_loaders import PyPDFLoader, WebBaseLoader
 # from langchain_core.documents import Document
+
 
 def create_signed_pdf_prompt(document1: str):
     """Creates the message to compare an unsigned base document to a second document to see if the second is signed."""
