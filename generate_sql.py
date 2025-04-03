@@ -99,35 +99,38 @@ t_generate_sql = StructuredTool.from_function(
     description="Use this tool to generate the SQL necessary to query BigQuery about the requested prompt",
 )
 
-def how_many_dollars_equals_one_euro():
-    """
-    Fetches the current Euro to US Dollar exchange rate using an online API.
-    """
-    try:
-        api_url = "https://api.exchangerate-api.com/v4/latest/EUR"
-        response = requests.get(api_url)
-        response.raise_for_status()  # Raise an exception for bad status codes
-        data = response.json()
-        if "rates" in data and "USD" in data["rates"]:
-            exchange_rate = data["rates"]["USD"]
-            # return f"The current EUR to USD exchange rate is: {exchange_rate}"
-            return exchange_rate
-        else:
-            return "Could not retrieve the EUR to USD exchange rate from the API."
-    except requests.exceptions.RequestException as e:
-        return f"Error fetching exchange rate: {e}"
+# def how_many_dollars_equals_one_euro():
+#     """
+#     Fetches the current Euro to US Dollar exchange rate using an online API.
+#     """
+#     try:
+#         api_url = "https://api.exchangerate-api.com/v4/latest/EUR"
+#         response = requests.get(api_url)
+#         response.raise_for_status()  # Raise an exception for bad status codes
+#         data = response.json()
+#         if "rates" in data and "USD" in data["rates"]:
+#             exchange_rate = data["rates"]["USD"]
+#             # return f"The current EUR to USD exchange rate is: {exchange_rate}"
+#             return exchange_rate
+#         else:
+#             return "Could not retrieve the EUR to USD exchange rate from the API."
+#     except requests.exceptions.RequestException as e:
+#         return f"Error fetching exchange rate: {e}"
 
-t_how_many_dollars_equals_one_euro = StructuredTool.from_function(
-    how_many_dollars_equals_one_euro,
-    name="how_many_dollars_equals_one_euro",
-    description="Use this tool to retrieve the current number of dollars it takes to buy one Euro",
-)
+# t_how_many_dollars_equals_one_euro = StructuredTool.from_function(
+#     how_many_dollars_equals_one_euro,
+#     name="how_many_dollars_equals_one_euro",
+#     description="Use this tool to retrieve the current number of dollars it takes to buy one Euro",
+# )
+from euro_dollar_langchain import t_get_current_date, t_lookup_exchange_rate_tool
 
 tools = [
+    t_get_current_date,
+    t_lookup_exchange_rate_tool,
     t_generate_sql,
-    t_how_many_dollars_equals_one_euro
+    # t_how_many_dollars_equals_one_euro
 ]
-print("EUR: ", how_many_dollars_equals_one_euro())
+# print("EUR: ", how_many_dollars_equals_one_euro())
 
 agent = initialize_agent(
     tools,
@@ -142,12 +145,13 @@ if __name__ == "__main__":
     available_tables = get_table_names(DATASET_ID, BIGQUERY_PROJECT_ID)
     print("Available tables:", available_tables)
 
-    print(agent.invoke('how many dollars is 150,000 Euros?'))
+    print(agent.invoke('how many dollars is 150,000 Euros currently?'))
     print('-' * 50)
     print(agent.invoke("Using the products table show how many products are in each category. Show the category name and count."))
 
-    # print(agent.invoke('Using the northwind.products table, show the product name and unit price.'))
-    # print('-' * 50)
+    print(agent.invoke('Using the northwind.products table, show the product name and unit price.'))
+    print('-' * 50)
+
     # print(agent.invoke('Using the northwind.products table, show the product name and prices in both USD and EUR.'))
     # print(agent.invoke("Using the products table list show how many products are in each category. Show the category name and count."))
     # # Example 1: Get all table names

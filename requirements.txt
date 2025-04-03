@@ -8,6 +8,7 @@ langchain-google-vertexai
 langchain-community 
 langchain-chroma 
 langchain-google-genai 
+langchain-google-community[bigquery]
 langchain-openai 
 langchain-experimental
 faiss-cpu 
@@ -22,3 +23,4 @@ pydantic
 google-cloud-bigquery-storage
 Flask
 vertexai
+pytz
