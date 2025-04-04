@@ -129,7 +129,9 @@ if __name__ == '__main__':
     # from langchain_google_vertexai import VertexAI
 
     llm = VertexAI(model_name="gemini-pro", project=PROJECT_ID, location="us-central1")
-    tools = [t_get_current_date, t_lookup_exchange_rate_tool]
+    tools = [
+        # t_get_current_date,
+             t_lookup_exchange_rate_tool]
     agent = initialize_agent(
         tools,
         llm,
